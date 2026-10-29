@@ -35,141 +35,164 @@ Split the image (boy.jpg) into B, G, R components and display the channels
 - **Register Number:** [212224230197]
 
   ### Ex. No. 01
+```.PY
+import cv2
+import matplotlib.pyplot as plt
 
-#### 1. Read the image ('Eagle_in_Flight.jpg') using OpenCV imread() as a grayscale image.
-```python
+print("EXPERIMENT 1: IMAGE HANDLING AND PIXEL TRANSFORMATION USING OPENCV")
+print("NAME: POOJA SRI P")
+print("REGISTER NUMBER: 212224230197")
 
-```
+img = cv2.imread('pic.jpeg', cv2.IMREAD_COLOR)
 
-#### 2. Print the image width, height & Channel.
-```python
-# YOUR CODE HERE
-```
+if img is None:
+    raise FileNotFoundError("Please keep pic.jpeg in the same folder as this notebook.")
 
-#### 3. Display the image using matplotlib imshow().
-```python
-plt.imshow(img_rgb, cmap='viridis')  # You can change 'viridis' to another cmap or use None for RGB images
+img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+plt.imshow(img_rgb)
 plt.title("Original Image")
-plt.axis('off')  # Removes axis ticks and labels
+plt.axis('off')
 plt.show()
-```
 
-#### 4. Save the image as a PNG file using OpenCV imwrite().
-```python
-# YOUR CODE HERE
-```
+height, width = img.shape[:2]
+print("Image Shape:", img.shape)
 
-#### 5. Read the saved image above as a color image using cv2.cvtColor().
-```python
-# YOUR CODE HERE
-```
+line_img = img_rgb.copy()
+cv2.line(line_img, (0, 0), (width - 1, height - 1), (255, 0, 0), 2)
 
-#### 6. Display the Colour image using matplotlib imshow() & Print the image width, height & channel.
-```python
-# YOUR CODE HERE
-```
+plt.imshow(line_img)
+plt.title("Image with Line")
+plt.axis('off')
+plt.show()
 
-#### 7. Crop the image to extract any specific (Eagle alone) object from the image.
-```python
-# YOUR CODE HERE
-```
+circle_img = img_rgb.copy()
+cv2.circle(circle_img, (width // 2, height // 2), min(width, height) // 4, (255, 0, 0), 10)
 
-#### 8. Resize the image up by a factor of 2x.
-```python
-# YOUR CODE HERE
-```
+plt.imshow(circle_img)
+plt.title("Image with Circle")
+plt.axis('off')
+plt.show()
 
-#### 9. Flip the cropped/resized image horizontally.
-```python
-# YOUR CODE HERE
-```
+rectangle_img = img_rgb.copy()
+cv2.rectangle(rectangle_img, (0, 0), (width - 1, height - 1), (0, 0, 255), 10)
 
-#### 10. Read in the image ('Apollo-11-launch.jpg').
-```python
-# YOUR CODE HERE
-```
+plt.imshow(rectangle_img)
+plt.title("Image with Rectangle")
+plt.axis('off')
+plt.show()
 
-#### 11. Add the following text to the dark area at the bottom of the image (centered on the image):
-```python
-text = 'Apollo 11 Saturn V Launch, July 16, 1969'
-font_face = cv2.FONT_HERSHEY_PLAIN
-# YOUR CODE HERE: use putText()
-```
+text_img = img_rgb.copy()
+cv2.putText(text_img, "POOJA SRI P", (30, min(100, height - 10)),
+            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 3)
 
-#### 12. Draw a magenta rectangle that encompasses the launch tower and the rocket.
-```python
-rect_color = magenta
-# YOUR CODE HERE
-```
+plt.imshow(text_img)
+plt.title("Image with Text")
+plt.axis('off')
+plt.show()
 
-#### 13. Display the final annotated image.
-```python
-# YOUR CODE HERE
-```
+image_rgb = img_rgb.copy()
 
-#### 14. Read the image ('Boy.jpg').
-```python
-# YOUR CODE HERE
-```
+image_hsv = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2HSV)
+plt.imshow(image_hsv)
+plt.title("HSV Image")
+plt.axis('off')
+plt.show()
 
-#### 15. Adjust the brightness of the image.
-```python
-# Create a matrix of ones (with data type float64)
-# matrix_ones = 
-# YOUR CODE HERE
-```
+image_gray = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2GRAY)
+plt.imshow(image_gray, cmap='gray')
+plt.title("Grayscale Image")
+plt.axis('off')
+plt.show()
 
-#### 16. Create brighter and darker images.
-```python
-img_brighter = cv2.add(img, matrix)
-img_darker = cv2.subtract(img, matrix)
-# YOUR CODE HERE
-```
+image_ycrcb = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2YCrCb)
+plt.imshow(image_ycrcb)
+plt.title("YCrCb Image")
+plt.axis('off')
+plt.show()
 
-#### 17. Display the images (Original Image, Darker Image, Brighter Image).
-```python
-# YOUR CODE HERE
-```
+image_hsv_to_rgb = cv2.cvtColor(image_hsv, cv2.COLOR_HSV2RGB)
+plt.imshow(image_hsv_to_rgb)
+plt.title("HSV to RGB Image")
+plt.axis('off')
+plt.show()
 
-#### 18. Modify the image contrast.
-```python
-# Create two higher contrast images using the 'scale' option with factors of 1.1 and 1.2 (without overflow fix)
-matrix1 = 
-matrix2 = 
-# img_higher1 = 
-# img_higher2 = 
-# YOUR CODE HERE
-```
+image = img.copy()
 
-#### 19. Display the images (Original, Lower Contrast, Higher Contrast).
-```python
-# YOUR CODE HERE
-```
+print("Pixel value at (100, 100):", image[100, 100])
 
-#### 20. Split the image (boy.jpg) into the B,G,R components & Display the channels.
-```python
-# YOUR CODE HERE
-```
+image[200:min(500, height), 200:min(500, width)] = [255, 255, 255]
 
-#### 21. Merged the R, G, B , displays along with the original image
-```python
-# YOUR CODE HERE
-```
+image_rgb_modified = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+plt.imshow(image_rgb_modified)
+plt.title("Image with White Block")
+plt.axis('off')
+plt.show()
 
-#### 22. Split the image into the H, S, V components & Display the channels.
-```python
-# YOUR CODE HERE
-```
-#### 23. Merged the H, S, V, displays along with original image.
-```python
-# YOUR CODE HERE
+resized_image = cv2.resize(image, (width // 2, height // 2))
+resized_image_rgb = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
+
+print("Resized Image Shape:", resized_image.shape)
+
+plt.imshow(resized_image_rgb)
+plt.title("Resized Image (Half Size)")
+plt.axis('off')
+plt.show()
+
+roi = img[50:min(150, height), 50:min(150, width)]
+roi_rgb = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
+
+plt.imshow(roi_rgb)
+plt.title("Cropped Region of Interest (ROI)")
+plt.axis('off')
+plt.show()
+
+flipped_horizontally = cv2.flip(img, 1)
+flipped_horizontally_rgb = cv2.cvtColor(flipped_horizontally, cv2.COLOR_BGR2RGB)
+
+plt.imshow(flipped_horizontally_rgb)
+plt.title("Flipped Horizontally")
+plt.axis('off')
+plt.show()
+
+flipped_vertically = cv2.flip(img, 0)
+flipped_vertically_rgb = cv2.cvtColor(flipped_vertically, cv2.COLOR_BGR2RGB)
+
+plt.imshow(flipped_vertically_rgb)
+plt.title("Flipped Vertically")
+plt.axis('off')
+plt.show()
+
+final_image = img.copy()
+cv2.line(final_image, (0, 0), (width - 1, height - 1), (255, 0, 0), 2)
+cv2.circle(final_image, (width // 2, height // 2), min(width, height) // 4, (0, 255, 0), 5)
+cv2.rectangle(final_image, (0, 0), (width - 1, height - 1), (0, 0, 255), 5)
+cv2.putText(final_image, "POOJA SRI P", (30, min(100, height - 10)),
+            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 3)
+
+cv2.imwrite('final_modified_image.jpeg', final_image)
+
+print("Final modified image saved successfully as final_modified_image.jpeg")
 ```
 
 ## Output:
-- **i)** Read and Display an Image.  
-- **ii)** Adjust Image Brightness.  
-- **iii)** Modify Image Contrast.  
-- **iv)** Generate Third Image Using Bitwise Operations.
+<img width="443" height="512" alt="image" src="https://github.com/user-attachments/assets/da7426be-03f8-4f66-b0ea-c6d69dfd3793" />
+
+<img width="460" height="537" alt="image" src="https://github.com/user-attachments/assets/c4a1123d-ad24-4622-bf27-10a28ce17cd9" />
+<img width="463" height="532" alt="image" src="https://github.com/user-attachments/assets/92ec6b0f-a6c9-4b77-8694-241fa9834282" />
+<img width="473" height="537" alt="image" src="https://github.com/user-attachments/assets/8ad52878-67d4-4756-b015-04df102041b0" />
+<img width="533" height="592" alt="image" src="https://github.com/user-attachments/assets/aa789e10-fe27-45e5-aa81-20498a8de4a2" />
+<img width="506" height="581" alt="image" src="https://github.com/user-attachments/assets/ec687627-fbe0-4d9a-b5c1-b37b7ce1f9eb" />
+<img width="426" height="502" alt="image" src="https://github.com/user-attachments/assets/806a524a-6798-49c2-a990-02e1366bae63" />
+<img width="456" height="521" alt="image" src="https://github.com/user-attachments/assets/8f6dbd37-abbd-4b76-9894-df2c38850453" />
+<img width="447" height="507" alt="image" src="https://github.com/user-attachments/assets/c22ce424-6745-44bb-9dfb-6409525de94e" />
+<img width="477" height="522" alt="image" src="https://github.com/user-attachments/assets/dc94ddf0-77b8-4a93-9258-5938e33c61f0" />
+<img width="681" height="513" alt="image" src="https://github.com/user-attachments/assets/107fd068-15b4-4c5a-b200-cd660b01d274" />
+<img width="567" height="517" alt="image" src="https://github.com/user-attachments/assets/5bfe971d-8e13-45d4-8fe1-1f0ef075a3db" />
+<img width="437" height="497" alt="image" src="https://github.com/user-attachments/assets/3b885b2b-bf63-4247-81d1-1fa86f891e7c" />
+<img width="502" height="506" alt="image" src="https://github.com/user-attachments/assets/2fbcbf41-aecc-4a99-881d-4becd4625349" />
+
+
 
 ## Result:
 Thus, the images were read, displayed, brightness and contrast adjustments were made, and bitwise operations were performed successfully using the Python program.
